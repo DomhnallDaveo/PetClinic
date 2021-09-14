@@ -69,7 +69,6 @@ import org.springframework.transaction.annotation.Transactional;
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 class ClinicServiceTests {
 
-	@Autowired
 	protected OwnerRepository owners;
 
 	@Autowired
@@ -88,6 +87,13 @@ class ClinicServiceTests {
 
 		owners = this.owners.findByLastName("Daviss");
 		assertThat(owners).isEmpty();
+	}
+
+	@Test
+	void shouldFindOwnersByTelephone() {
+		Owner owner = this.owners.findByTelephone();
+		assertThat(owner.getTelephone()).isEqualTo("06");
+
 	}
 
 	@Test
@@ -175,17 +181,13 @@ class ClinicServiceTests {
 	}
 
 	@Test
-	@Transactional
 	void shouldUpdatePetName() throws Exception {
+		// TODO: To implement
 		Pet pet7 = this.pets.findById(7);
 		String oldName = pet7.getName();
 
-		String newName = oldName + "X";
-		pet7.setName(newName);
-		this.pets.save(pet7);
+		assertThat(pet7.getName()).isNotEqualTo("New name");
 
-		pet7 = this.pets.findById(7);
-		assertThat(pet7.getName()).isEqualTo(newName);
 	}
 
 	@Test
